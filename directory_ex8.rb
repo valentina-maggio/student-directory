@@ -34,11 +34,11 @@ def print_header
 end
 
 def print(students)
-  idx = 0
-  until idx == students.length do
-    puts "#{students[idx][:name]} (cohort: #{students[idx][:cohort]})"
-    idx += 1
-  end
+# Display only the students from the cohort the user would like to see
+  puts "Please enter a cohort you want to display."
+  cohort_to_display = gets.chomp.to_sym
+  puts "Students from #{cohort_to_display} cohort:"
+  students.each { |student| puts "#{student[:name]}" if student[:cohort] == cohort_to_display } 
 end
 
 def print_footer(students)
