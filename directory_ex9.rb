@@ -20,6 +20,7 @@ def input_students
     else
       students << {name: student, cohort: cohort.to_sym}
     end
+ # Print 'student' or 'students' based on the number of students"
     puts "Now we have #{students.count} student" if students.count == 1
     puts "Now we have #{students.count} students" if students.count > 1
     puts "To finish, juts hit return twice, else keep entering the students name and cohort."
@@ -43,7 +44,9 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+# Print 'student' or 'students' based on the number of students"
+  puts "Overall, we have #{students.count} great student" if students.count == 1
+  puts "Overall, we have #{students.count} great students" if students.count > 1
 end
 
 students = input_students
