@@ -98,14 +98,16 @@ def update_student_list(name, cohort)
 end
 
 def try_load_students
-  filename = ARGV.first # First argument from the command line
-  return if filename.nil? # Get out of the method if it isn't givem
-  if File.exists?(filename) # If it exists
+  filename = ARGV.first
+  if filename.nil? 
+    load_students("students.csv")
+    puts "No file passed to ARGV. #{@students.count} students added by default"
+  elsif File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
-  else # If it doesn't exist
+  else 
     puts "Sorry, #{filename} doesn't exist"
-    exit # Quit the program
+    exit 
   end
 end
 
