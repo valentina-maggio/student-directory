@@ -32,12 +32,22 @@ def process(selection)
   end
 end
 
-def input_students
+def add_student_name
   puts "Please enter the names of the students"
   puts "To finish, juts hit return twice"
   name = STDIN.gets.chomp
+end
+
+def add_cohort_name(name)
+  puts "Please enter the cohort of #{name}"
+  cohort = STDIN.gets.chomp
+end
+
+def input_students
+  name = add_student_name
   while !name.empty? do
-    @students << {name: name, cohort: :november}
+    cohort = add_cohort_name(name)
+    update_student_list(name, cohort)
     puts "Now we have #{@students.count} students"
     name = STDIN.gets.chomp
   end
@@ -78,9 +88,13 @@ def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    update_student_list(name, cohort)
   end
   file.close
+end
+
+def update_student_list(name, cohort) 
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def try_load_students
