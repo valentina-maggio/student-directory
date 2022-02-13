@@ -16,7 +16,7 @@ def interactive_menu
 end
 
 def process(user_selection)
-  case user_selection # Refactoring of the case statement
+  case user_selection 
   when "1" then input_students
   when "2" then show_students
   when "3" then save_students
@@ -62,7 +62,7 @@ def print_header
   puts "-------------"
 end
 
-def print_student_list # Refactoring of the block
+def print_student_list
   @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" }
 end
 
@@ -78,7 +78,7 @@ def save_students
     file.puts csv_line
   end
   file.close
-  puts "Student list succesfully saved."
+  puts "Student list successfully saved."
 end
 
 def load_students(filename = "students.csv")
@@ -88,7 +88,7 @@ def load_students(filename = "students.csv")
     update_student_list(name, cohort)
   end
   file.close
-  puts "Student list succesfully loaded."
+  puts "Student list successfully loaded."
 end
 
 def try_load_students
@@ -100,8 +100,7 @@ def try_load_students
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}."
   else 
-    puts "Sorry, #{filename} doesn't exist."
-    exit 
+    puts "Sorry, #{filename} doesn't exist."; exit 
   end
 end
 
