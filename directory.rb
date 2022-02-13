@@ -19,7 +19,7 @@ def process(user_selection)
   case user_selection 
   when "1" then input_students
   when "2" then show_students
-  when "3" then save_students
+  when "3" then save_students ; puts "Student list successfully saved."
   when "4" then load_students(filename_to_load) ; puts "Student list successfully loaded."
   when "9" then puts "Goodbye!"; exit
   else puts "I don't know what you meant, try again."
@@ -76,14 +76,13 @@ def filename_to_save
 end
 
 def save_students
-  file = File.open(filename_to_save, "w")
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename_to_save, "w") do |file|
+    @students.each do |student|
+     student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
-  puts "Student list successfully saved."
 end
 
 def filename_to_load
@@ -100,12 +99,12 @@ def filename_to_load
 end
 
 def load_students(filename_to_load = "students.csv")
-  file = File.open("#{filename_to_load}", "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    update_student_list(name, cohort)
+  File.open("#{filename_to_load}", "r") do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      update_student_list(name, cohort)
+    end
   end
-  file.close
 end
 
 def try_load_students
