@@ -1,3 +1,4 @@
+require 'csv'
 @students = [] 
 
 def print_menu
@@ -20,7 +21,7 @@ def process(user_selection)
   when "1" then input_students
   when "2" then show_students
   when "3" then save_students ; puts "Student list successfully saved."
-  when "4" then load_students(filename_to_load) ; puts "Student list successfully loaded."
+  when "4" then load_students(filename_to_load); puts "Student list successfully loaded."
   when "9" then puts "Goodbye!"; exit
   else puts "I don't know what you meant, try again."
   end
@@ -76,12 +77,8 @@ def filename_to_save
 end
 
 def save_students
-  File.open(filename_to_save, "w") do |file|
-    @students.each do |student|
-     student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
-    end
+  CSV.open(filename_to_save, "w") do |line|
+    @students.each { |student| line << [student[:name], student[:cohort]] }
   end
 end
 
@@ -90,21 +87,16 @@ def filename_to_load
   filename = STDIN.gets.chomp
   loop do
     if File.exists?(filename)
-    return filename
+      return filename
     else 
-    puts "Sorry, #{filename} doesn't exist. Please try again."
-    filename = STDIN.gets.chomp
+      puts "Sorry, #{filename} doesn't exist. Please try again."
+      filename = STDIN.gets.chomp
     end
   end
 end
 
 def load_students(filename_to_load = "students.csv")
-  File.open("#{filename_to_load}", "r") do |file|
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      update_student_list(name, cohort)
-    end
-  end
+  CSV.foreach(filename_to_load) { |row| update_student_list(row[0], row[1]) }
 end
 
 def try_load_students
