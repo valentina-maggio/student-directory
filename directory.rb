@@ -21,19 +21,19 @@ def process(user_selection)
   when "2" then show_students
   when "3" then save_students
   when "4" then load_students
-  when "9" then exit
-  else puts "I don't know what you meant, try again"
+  when "9" then puts "Goodbye!"; exit
+  else puts "I don't know what you meant, try again."
   end
 end
 
 def add_student_name
-  puts "Please enter the names of the students"
-  puts "To finish, juts hit return twice"
+  puts "Please enter the names of the students."
+  puts "To finish, juts hit return twice."
   name = STDIN.gets.chomp
 end
 
 def add_cohort_name(name)
-  puts "Please enter the cohort of #{name}"
+  puts "Please enter the cohort of #{name}."
   cohort = STDIN.gets.chomp
 end
 
@@ -42,7 +42,7 @@ def input_students
   while !name.empty? do
     cohort = add_cohort_name(name)
     update_student_list(name, cohort)
-    puts "Now we have #{@students.count} students"
+    puts "Student upload completed. Now we have #{@students.count} students."
     name = STDIN.gets.chomp
   end
 end
@@ -67,7 +67,7 @@ def print_student_list # Refactoring of the block
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students. Show students action completed."
 end
 
 def save_students
@@ -78,6 +78,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "Student list succesfully saved."
 end
 
 def load_students(filename = "students.csv")
@@ -87,18 +88,19 @@ def load_students(filename = "students.csv")
     update_student_list(name, cohort)
   end
   file.close
+  puts "Student list succesfully loaded."
 end
 
 def try_load_students
   filename = ARGV.first
   if filename.nil? 
     load_students("students.csv")
-    puts "No file passed to ARGV. #{@students.count} students added by default"
+    puts "No file passed to ARGV. #{@students.count} students added by default."
   elsif File.exists?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}."
   else 
-    puts "Sorry, #{filename} doesn't exist"
+    puts "Sorry, #{filename} doesn't exist."
     exit 
   end
 end
