@@ -3,8 +3,8 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to file"
+  puts "4. Load the list from file"
   puts "9. Exit" 
 end
 
@@ -20,7 +20,7 @@ def process(user_selection)
   when "1" then input_students
   when "2" then show_students
   when "3" then save_students
-  when "4" then load_students
+  when "4" then load_students(filename_to_load) ; puts "Student list successfully loaded."
   when "9" then puts "Goodbye!"; exit
   else puts "I don't know what you meant, try again."
   end
@@ -70,8 +70,13 @@ def print_footer
   puts "Overall, we have #{@students.count} great students. Show students action completed."
 end
 
+def filename_to_save
+  puts "Please enter the file name where you wish to save the student list."
+  filename = STDIN.gets.chomp
+end
+
 def save_students
-  file = File.open("students.csv", "w")
+  file = File.open(filename_to_save, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
@@ -81,14 +86,26 @@ def save_students
   puts "Student list successfully saved."
 end
 
-def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r")
+def filename_to_load
+  puts "Please enter the file name from which you wish to load the student list."
+  filename = STDIN.gets.chomp
+  loop do
+    if File.exists?(filename)
+    return filename
+    else 
+    puts "Sorry, #{filename} doesn't exist. Please try again."
+    filename = STDIN.gets.chomp
+    end
+  end
+end
+
+def load_students(filename_to_load = "students.csv")
+  file = File.open("#{filename_to_load}", "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     update_student_list(name, cohort)
   end
   file.close
-  puts "Student list successfully loaded."
 end
 
 def try_load_students
