@@ -5,7 +5,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
-  puts "9. Exit" # we'll be adding more items
+  puts "9. Exit" 
 end
 
 def interactive_menu
@@ -15,20 +15,14 @@ def interactive_menu
   end
 end
 
-def process(selection)
-  case selection
-  when "1"
-    input_students
-  when "2"
-    show_students
-  when "3"
-    save_students
-  when "4"
-    load_students
-  when "9"
-    exit
-  else
-    puts "I don't know what you meant, try again"
+def process(user_selection)
+  case user_selection # Refactoring of the case statement
+  when "1" then input_students
+  when "2" then show_students
+  when "3" then save_students
+  when "4" then load_students
+  when "9" then exit
+  else puts "I don't know what you meant, try again"
   end
 end
 
@@ -53,6 +47,10 @@ def input_students
   end
 end
 
+def update_student_list(name, cohort) 
+  @students << {name: name, cohort: cohort.to_sym}
+end
+
 def show_students
   print_header
   print_student_list
@@ -64,10 +62,8 @@ def print_header
   puts "-------------"
 end
 
-def print_student_list
-  @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  end
+def print_student_list # Refactoring of the block
+  @students.each { |student| puts "#{student[:name]} (#{student[:cohort]} cohort)" }
 end
 
 def print_footer
@@ -91,10 +87,6 @@ def load_students(filename = "students.csv")
     update_student_list(name, cohort)
   end
   file.close
-end
-
-def update_student_list(name, cohort) 
-  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def try_load_students
